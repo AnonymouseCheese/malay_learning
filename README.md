@@ -58,7 +58,8 @@ drilling the **words**, the **phrases**, or both.
 - **Listening quiz** — the phrase is spoken with no text at all, and you pick
   its meaning from four. The wrong answers come from the same unit, so guessing
   from the shape of the English does not work.
-- **Phrasebook** — the whole list, readable, with every line tappable to hear.
+- **Phrasebook** — the whole list, readable, with every line tappable to hear,
+  and every phrase broken into its words. See below.
 - **Exam** — twelve questions mixed across all three modes, scored at the end,
   with the ones you missed listed for another look.
 
@@ -112,6 +113,32 @@ at a time — 2.75 is *dua perpuluhan tujuh lima*, never *tujuh puluh lima*.
 Prices can be set to **dolar** for Singapore or **ringgit** for Malaysia. It
 changes what is spoken as well as what is shown.
 
+## The phrasebook, and word by word
+
+A phrase list is not much use if you cannot see which word is doing what. So
+every phrase in the app is broken into its words, each sitting directly above
+what it means:
+
+```
+Tolong    masakkan       sesuatu
+please    cook for me    something
+                                        Please cook something.
+```
+
+The meanings come from the unit word lists — 594 of them are already written
+out there, so the two cannot drift apart — with a shorter form generated for
+stacking, and extra entries for words that only ever turn up inside a phrase.
+Multi-word ideas are matched first and whole, so *terima kasih* glosses as
+"thank you" rather than "receive" and "love". **All 430 phrases are covered,
+with no word left blank.**
+
+The **word by word** button in the phrasebook hides the meanings, which turns
+the same list into a self-test. The breakdown appears on the drill cards too,
+once you have revealed the answer.
+
+Above the phrases, the unit's words are listed tight — Malay on the left,
+meaning on the right — as a plain reference to read down.
+
 ## At home
 
 The phrases that come up around the house day after day — cooking, cleaning,
@@ -122,10 +149,20 @@ It works like any other unit, with one addition: **+ add** in the phrasebook
 lets you save a phrase of your own. It is stored on the device, joins the drills
 straight away, and can be deleted with the × on its row.
 
-Plenty of households here speak Indonesian rather than Malay, and a handful of
-everyday words genuinely differ — *bisa* not *boleh*, *mau* not *nak*, *tidak*
-or *nggak* not *tak*. Where it matters, the Indonesian version is printed under
-the Malay. The grammar is the same either way.
+Malay is what the app teaches, and it is the right thing to learn — it is what
+works everywhere else in Singapore and across the causeway. But the person you
+talk to at home may be Indonesian, so **every phrase in this section carries its
+Indonesian wording underneath**: *bisa* not *boleh*, *mau* not *nak*, *tidak* or
+*nggak* not *tak*, *jam* not *pukul* for the time, *delapan* not *lapan* for
+eight.
+
+Where a phrase is word-for-word the same in both, it says **"Same in
+Indonesian"** rather than leaving a blank — a blank cannot tell you whether the
+two match or whether nobody checked. 45 of the 58 differ; 13 are identical.
+
+Tap the Indonesian line on its own to hear just that, read by an Indonesian
+voice where the device has one. The grammar is identical either way, so
+learning the Malay costs you nothing at home.
 
 ## Sound
 
@@ -154,6 +191,7 @@ index.html    every screen, hidden until needed
 style.css     one stylesheet, dark and light
 data.js       the course - 17 units plus the At home section
 numbers.js    Malay numbers, prices and decimals, built rather than listed
+gloss.js      word-by-word meanings, built from the unit word lists
 app.js        the drills, the scoring, and the speech
 ```
 

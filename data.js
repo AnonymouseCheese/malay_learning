@@ -1398,10 +1398,15 @@ var UNITS = [
         'means please - tolong masak, tolong cuci. boleh in front turns it ' +
         'into a question - boleh tolong masak? Bare verbs are not rude in ' +
         'Malay, but tolong is warmer, and it is what you will hear back. ' +
-        'One more thing worth knowing: if the person you are speaking with is ' +
-        'Indonesian rather than Malaysian, a few everyday words differ - bisa ' +
-        'instead of boleh, mau instead of nak, tidak or nggak instead of tak. ' +
-        'Those are shown underneath where they matter. The grammar is the same.',
+        'The Malay is what this app teaches and what is worth learning - it ' +
+        'is what you will use everywhere else in Singapore and across the ' +
+        'causeway. But if the person you speak with at home is Indonesian, a ' +
+        'few everyday words differ, and the Indonesian wording is printed ' +
+        'under every phrase in this section: bisa not boleh, mau not nak, ' +
+        'tidak or nggak not tak, jam not pukul for the time, and delapan not ' +
+        'lapan for eight. Where a phrase is word-for-word the same in both, ' +
+        'it says so. Tap the Indonesian line to hear just that. The grammar ' +
+        'is the same either way, so learning the Malay costs you nothing at home.',
   words: [
     ['tolong', 'please / help'],
     ['masak', 'to cook'],
@@ -1465,45 +1470,45 @@ var UNITS = [
     ['Ada apa nak makan?', 'What is there to eat?', 'exist what want eat', 'The everyday way to ask what food is in the house.', 'Ada apa mau makan?'],
 
     ['Boleh tolong masak?', 'Could you cook, please?', 'can help cook', 'boleh in front turns an instruction into a question.', 'Bisa tolong masak?'],
-    ['Masak apa hari ini?', 'What are you cooking today?', 'cook what day this', '', ''],
+    ['Masak apa hari ini?', 'What are you cooking today?', 'cook what day this', '','='],
     ['Masak apa-apa pun boleh.', 'Anything is fine.', 'cook anything even can', '', 'Masak apa aja boleh.'],
     ['Saya nak makan nasi ayam.', 'I would like chicken rice.', 'I want eat rice chicken', '', 'Saya mau makan nasi ayam.'],
     ['Jangan pedas sangat.', 'Not too spicy, please.', 'do-not spicy very', '', 'Jangan terlalu pedas.'],
     ['Kurang garam sikit.', 'A little less salt.', 'less salt a-little', '', 'Kurangin garamnya sedikit.'],
     ['Tolong panaskan makanan.', 'Please heat the food up.', 'please heat food', '', 'Tolong panasin makanannya.'],
-    ['Masak untuk berapa orang?', 'Cooking for how many?', 'cook for how-much person', '', ''],
-    ['Untuk empat orang.', 'For four people.', 'for four person', '', ''],
-    ['Sarapan pukul lapan.', 'Breakfast at eight.', 'breakfast hour eight', '', ''],
-    ['Makan malam pukul tujuh.', 'Dinner at seven.', 'eat night hour seven', '', ''],
-    ['Saya makan di luar malam ini.', 'I am eating out tonight.', 'I eat at outside night this', '', ''],
+    ['Masak untuk berapa orang?', 'Cooking for how many?', 'cook for how-much person', '','='],
+    ['Untuk empat orang.', 'For four people.', 'for four person', '','='],
+    ['Sarapan pukul lapan.', 'Breakfast at eight.', 'breakfast hour eight', '', 'Sarapan jam delapan.'],
+    ['Makan malam pukul tujuh.', 'Dinner at seven.', 'eat night hour seven', '', 'Makan malam jam tujuh.'],
+    ['Saya makan di luar malam ini.', 'I am eating out tonight.', 'I eat at outside night this', '','='],
     ['Tak payah masak untuk saya.', 'No need to cook for me.', 'no-need cook for me', '', 'Nggak usah masak buat saya.'],
     ['Simpan dalam peti sejuk.', 'Put it in the fridge.', 'keep inside box cold', '', 'Simpan di kulkas.'],
-    ['Sedap sangat, terima kasih.', 'That was lovely, thank you.', 'delicious very, thank you', 'Worth saying out loud. It costs nothing.', ''],
+    ['Sedap sangat, terima kasih.', 'That was lovely, thank you.', 'delicious very, thank you', 'Worth saying out loud. It costs nothing.', 'Enak sekali, terima kasih.'],
 
     ['Tolong cuci pinggan.', 'Please wash the dishes.', 'please wash plate', '', 'Tolong cuci piring.'],
     ['Tolong kemas bilik.', 'Please tidy the room.', 'please tidy room', '', 'Tolong rapikan kamar.'],
-    ['Tolong sapu lantai.', 'Please sweep the floor.', 'please sweep floor', '', ''],
+    ['Tolong sapu lantai.', 'Please sweep the floor.', 'please sweep floor', '','='],
     ['Tolong mop lantai.', 'Please mop the floor.', 'please mop floor', '', 'Tolong pel lantai.'],
-    ['Tolong lap meja.', 'Please wipe the table.', 'please wipe table', '', ''],
-    ['Tolong buang sampah.', 'Please take the rubbish out.', 'please throw rubbish', '', ''],
+    ['Tolong lap meja.', 'Please wipe the table.', 'please wipe table', '','='],
+    ['Tolong buang sampah.', 'Please take the rubbish out.', 'please throw rubbish', '','='],
     ['Tolong basuh baju.', 'Please do the laundry.', 'please wash clothes', '', 'Tolong cuci baju.'],
     ['Tolong sidai baju.', 'Please hang the washing out.', 'please hang clothes', '', 'Tolong jemur baju.'],
-    ['Tolong lipat baju.', 'Please fold the clothes.', 'please fold clothes', '', ''],
+    ['Tolong lipat baju.', 'Please fold the clothes.', 'please fold clothes', '','='],
     ['Tolong gosok baju ini.', 'Please iron these.', 'please iron clothes this', '', 'Tolong setrika baju ini.'],
     ['Tolong tukar cadar.', 'Please change the bedsheets.', 'please change bedsheet', '', 'Tolong ganti seprai.'],
     ['Tolong cuci tandas.', 'Please clean the toilet.', 'please wash toilet', '', 'Tolong bersihin kamar mandi.'],
     ['Nanti saja, tak apa.', 'Later is fine.', 'later only, no-matter', '', 'Nanti aja, nggak apa-apa.'],
-    ['Buat ini dulu.', 'Do this one first.', 'do this first', '', ''],
+    ['Buat ini dulu.', 'Do this one first.', 'do this first', '','='],
     ['Tak payah buat hari ini.', 'No need to do it today.', 'no-need do day this', '', 'Nggak usah dikerjain hari ini.'],
 
     ['Barang dah habis.', 'We have run out.', 'thing already finished', '', 'Barangnya sudah habis.'],
-    ['Apa yang dah habis?', 'What have we run out of?', 'what which already finished', '', ''],
-    ['Tolong beli sayur.', 'Please buy vegetables.', 'please buy vegetable', '', ''],
+    ['Apa yang dah habis?', 'What have we run out of?', 'what which already finished', '', 'Apa yang sudah habis?'],
+    ['Tolong beli sayur.', 'Please buy vegetables.', 'please buy vegetable', '','='],
     ['Ini duit untuk beli barang.', 'Here is money for the shopping.', 'this money for buy things', '', 'Ini uang buat belanja.'],
-    ['Simpan resit ya.', 'Keep the receipt please.', 'keep receipt yes', '', ''],
+    ['Simpan resit ya.', 'Keep the receipt please.', 'keep receipt yes', '', 'Simpan struknya ya.'],
     ['Baki simpan saja.', 'Keep the change.', 'change keep only', '', 'Kembaliannya simpan aja.'],
 
-    ['Tolong jaga anak.', 'Please look after the children.', 'please guard child', '', ''],
+    ['Tolong jaga anak.', 'Please look after the children.', 'please guard child', '','='],
     ['Hantar dia ke sekolah.', 'Take him to school.', 'send him to school', '', 'Antar dia ke sekolah.'],
     ['Ambil dia pukul tiga.', 'Pick her up at three.', 'take her hour three', '', 'Jemput dia jam tiga.'],
     ['Jangan bagi dia gula-gula.', 'Do not give him sweets.', 'do-not give him sweets', '', 'Jangan kasih dia permen.'],
@@ -1521,8 +1526,8 @@ var UNITS = [
     ['Awak faham?', 'Do you understand?', 'you understand', '', 'Kamu ngerti?'],
     ['Tanya saya kalau tak pasti.', 'Ask me if you are not sure.', 'ask me if not certain', '', 'Tanya saya kalau nggak yakin.'],
     ['Tak apa, jangan risau.', 'It is alright, do not worry.', 'no-matter, do-not worry', 'For when something gets broken. It matters more than the thing did.', 'Nggak apa-apa, jangan khawatir.'],
-    ['Hati-hati ya.', 'Be careful.', 'careful yes', '', ''],
-    ['Terima kasih banyak.', 'Thank you very much.', 'thank you many', '', ''],
+    ['Hati-hati ya.', 'Be careful.', 'careful yes', '','='],
+    ['Terima kasih banyak.', 'Thank you very much.', 'thank you many', '','='],
     ['Kerja awak bagus.', 'You have done a good job.', 'work your good', '', 'Kerja kamu bagus.']
   ]
 }

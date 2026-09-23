@@ -14,6 +14,7 @@
     numDir: 'hear',      // hear -> type, or see -> say
     numLevel: 'priceCents',
     numSlow: false,
+    gloss: true,          // show each Malay word above its meaning
     stats: {},           // key -> { seen, wrong }
     custom: {},          // unitId -> [[ms, en, lit, note], ...]
     right: 0,
@@ -44,6 +45,7 @@
     if (saved.scope) state.scope = saved.scope;
     if (saved.numDir) state.numDir = saved.numDir;
     if (saved.numLevel) state.numLevel = saved.numLevel;
+    if (typeof saved.gloss === 'boolean') state.gloss = saved.gloss;
   }
 
   function save() {
@@ -51,7 +53,7 @@
       localStorage.setItem(STORE, JSON.stringify({
         stats: state.stats, custom: state.custom, volume: state.volume,
         currency: state.currency, scope: state.scope,
-        numDir: state.numDir, numLevel: state.numLevel
+        numDir: state.numDir, numLevel: state.numLevel, gloss: state.gloss
       }));
     } catch (e) { /* private browsing - just do not persist */ }
   }
@@ -138,7 +140,7 @@
   // and it works offline. Malay voices are not installed everywhere, so an
   // Indonesian voice is the fallback - the two are close enough in sound that
   // a learner is not misled, and the app says which one it found.
-  var speech = { ok: false, voice: null, label: '' };
+  var speech = { ok: false, voice: null, idVoice: null, label: '' };
 
   try {
     speech.ok = !!(window.speechSynthesis && typeof window.SpeechSynthesisUtterance === 'function');
@@ -187,10 +189,11 @@
   }
   function soundOn() { return speech.ok && volumeLevel() > 0; }
 
-  function utter(text, volume, rate) {
+  function utter(text, volume, rate, voice) {
     var u = new window.SpeechSynthesisUtterance(text);
-    u.lang = speech.voice ? speech.voice.lang : 'ms-MY';
-    if (speech.voice) u.voice = speech.voice;
+    if (voice === undefined) voice = speech.voice;
+    u.lang = voice ? voice.lang : 'ms-MY';
+    if (voice) u.voice = voice;
     u.rate = typeof rate === 'number' ? rate : (state.numSlow ? 0.62 : 0.88);
     u.pitch = 0.95;
     u.volume = (typeof volume === 'number') ? volume : volumeLevel();
@@ -213,10 +216,12 @@
     } catch (e) {}
   }
 
-  function say(text, rate) {
+  // lang 'id' asks for the Indonesian voice, where there is one.
+  function say(text, rate, lang) {
     if (!soundOn() || !text) return;
     if (!speech.voice) chooseVoice();
     primeSpeech();
+    var voice = (lang === 'id' && speech.idVoice) ? speech.idVoice : speech.voice;
     try {
       var go = function () {
         // Browsers pause the speech engine when the page has been idle, and it
@@ -224,7 +229,7 @@
         // Resuming costs nothing when it is not paused.
         try { window.speechSynthesis.resume(); } catch (e) {}
         window.speechSynthesis.speak(utter(' ', 0));     // warm the session
-        window.speechSynthesis.speak(utter(text, undefined, rate));
+        window.speechSynthesis.speak(utter(text, undefined, rate, voice));
       };
       if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
         window.speechSynthesis.cancel();
@@ -379,13 +384,18 @@
 
     $('drillMalay').textContent = item.ms;
     $('drillMalay').classList.toggle('hidden', listenMode);
+    var showGloss = state.gloss && item.type === 'phrase';
+    $('drillGloss').innerHTML = showGloss ? glossHTML(item.ms) : '';
+    $('drillGloss').classList.toggle('hidden', !showGloss);
+
     $('drillEnglish').textContent = item.en;
-    $('drillLit').textContent = item.lit ? item.lit : '';
+    $('drillLit').textContent = item.lit ? 'literally: ' + item.lit : '';
     $('drillLit').classList.toggle('hidden', !item.lit);
 
     var extra = '';
     if (item.note) extra += item.note;
-    if (item.id) extra += (extra ? '  ' : '') + 'Indonesian: ' + item.id;
+    if (item.id === '=') extra += (extra ? '  ' : '') + 'Said the same way in Indonesian.';
+    else if (item.id) extra += (extra ? '  ' : '') + 'Indonesian: ' + item.id;
     $('drillNote').textContent = extra;
     $('drillNote').classList.toggle('hidden', !extra);
 
@@ -494,33 +504,86 @@
     setTimeout(nextQuiz, right ? 700 : 1600);
   }
 
+  // ---------- word by word ----------
+  // Every Malay word of a phrase sitting above what it means. This is the
+  // point of the phrasebook: a phrase is no use if you cannot see which word
+  // is carrying which idea, and a list of words on its own does not show you
+  // how they behave once they are in a sentence.
+  function glossHTML(ms) {
+    if (typeof GLOSS === 'undefined') return '';
+    var parts = GLOSS.parts(ms);
+    if (!parts.length) return '';
+    return '<span class="gloss">' + parts.map(function (p) {
+      return '<span class="gloss-part">' +
+               '<span class="gloss-ms">' + esc(p.ms) + '</span>' +
+               '<span class="gloss-en">' + esc(p.en || '·') + '</span>' +
+             '</span>';
+    }).join('') + '</span>';
+  }
+
   // ---------- phrasebook ----------
   function renderBrowse() {
     var u = unitById(state.unit);
     $('browseTitle').textContent = u.name;
     $('addOpen').classList.toggle('hidden', !u.custom);
     $('addForm').classList.add('hidden');
+    $('glossToggle').classList.toggle('on', state.gloss);
+    $('browseList').classList.toggle('gloss-off', !state.gloss);
 
     var box = $('browseList');
     box.innerHTML = '';
 
-    function section(title) {
+    function section(title, hint) {
       var h = document.createElement('p');
       h.className = 'section-label';
       h.textContent = title;
       box.appendChild(h);
+      if (hint) {
+        var p = document.createElement('p');
+        p.className = 'section-hint';
+        p.textContent = hint;
+        box.appendChild(p);
+      }
     }
 
-    function row(item) {
+    // Words are a reference list, so they are set tight - Malay on the left,
+    // meaning on the right, as many to a screen as will fit.
+    function wordLine(item) {
+      var d = document.createElement('div');
+      d.className = 'word-line';
+      d.innerHTML = '<span class="word-line-ms">' + esc(item.ms) + '</span>' +
+                    '<span class="word-line-en">' + esc(item.en) + '</span>';
+      d.addEventListener('click', function () { say(item.ms); });
+      box.appendChild(d);
+    }
+
+    function phraseCard(item) {
       var d = document.createElement('div');
       d.className = 'browse-row' + (item.mine ? ' browse-row-mine' : '');
       var html = '<span class="browse-ms">' + esc(item.ms) + '</span>' +
+                 glossHTML(item.ms) +
                  '<span class="browse-en">' + esc(item.en) + '</span>';
-      if (item.lit) html += '<span class="browse-lit">' + esc(item.lit) + '</span>';
-      if (item.id) html += '<span class="browse-id">Indonesian: ' + esc(item.id) + '</span>';
+      if (item.lit) html += '<span class="browse-lit">literally: ' + esc(item.lit) + '</span>';
+      if (item.id === '=') {
+        html += '<span class="browse-id browse-id-same">Same in Indonesian</span>';
+      } else if (item.id) {
+        html += '<span class="browse-id browse-id-say">Indonesian: ' + esc(item.id) + '</span>';
+      }
       if (item.note) html += '<span class="browse-note">' + esc(item.note) + '</span>';
       d.innerHTML = html;
       d.addEventListener('click', function () { say(item.ms); });
+
+      // Tapping the Malay hears the Malay; tapping the Indonesian line hears
+      // that instead. Useful when the Malay is what you are learning but the
+      // Indonesian is what the person in front of you speaks.
+      var idLine = d.querySelector('.browse-id-say');
+      if (idLine) {
+        idLine.addEventListener('click', function (e) {
+          e.stopPropagation();
+          say(item.id, undefined, 'id');
+        });
+      }
+
       if (item.mine) {
         var x = document.createElement('button');
         x.className = 'browse-del';
@@ -537,17 +600,19 @@
       box.appendChild(d);
     }
 
-    section('Words');
-    wordItems(u).forEach(row);
+    var words = wordItems(u);
+    section('The words', words.length + ' of them. Tap to hear one.');
+    words.forEach(wordLine);
 
     var ph = phraseItems(u);
-    section('Phrases');
-    ph.filter(function (i) { return !i.mine; }).forEach(row);
+    var built = ph.filter(function (i) { return !i.mine; });
+    section('The phrases', 'Each Malay word sits above what it means.');
+    built.forEach(phraseCard);
 
     var mine = ph.filter(function (i) { return i.mine; });
     if (mine.length || u.custom) {
       section(mine.length ? 'Yours' : 'Yours — nothing added yet');
-      mine.forEach(row);
+      mine.forEach(phraseCard);
     }
     show('browse');
   }
@@ -824,6 +889,12 @@
     $('numSayReveal').addEventListener('click', revealNumber);
     $('numGot').addEventListener('click', function () { recordNumber(true); nextNumber(); });
     $('numMissed').addEventListener('click', function () { recordNumber(false); nextNumber(); });
+
+    $('glossToggle').addEventListener('click', function () {
+      state.gloss = !state.gloss;
+      save();
+      renderBrowse();
+    });
 
     $('addOpen').addEventListener('click', function () {
       $('addForm').classList.toggle('hidden');

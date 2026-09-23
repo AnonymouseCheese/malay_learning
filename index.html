@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Melayu">
 <meta name="theme-color" content="#12131a">
 <title>Everyday Malay</title>
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
@@ -134,6 +134,7 @@
 
       <div id="drillAnswer" class="reveal hidden">
         <div id="drillMalay" class="word-kana word-kana-answer"></div>
+        <div id="drillGloss" class="gloss-box"></div>
         <div id="drillEnglish" class="word-meaning"></div>
         <div id="drillLit" class="lit"></div>
         <div id="drillNote" class="tip"></div>
@@ -173,9 +174,13 @@
   <header class="bar">
     <button class="back" data-back="unit" aria-label="Back">&lsaquo;</button>
     <span class="bar-title" id="browseTitle">Phrasebook</span>
-    <span class="bar-actions"><button id="addOpen" class="mini hidden">+ add</button></span>
+    <span class="bar-actions">
+      <button id="glossToggle" class="mini">word by word</button>
+      <button id="addOpen" class="mini hidden">+ add</button>
+    </span>
   </header>
-  <p class="picker-hint">Tap any line to hear it.</p>
+  <p class="picker-hint">Tap any line to hear it. Under each phrase, every Malay
+  word sits above what it means.</p>
 
   <div id="addForm" class="add-form hidden">
     <p class="seg-label">Add a phrase of your own</p>
@@ -301,8 +306,9 @@
   </div>
 </section>
 
-<script src="data.js?v=1"></script>
-<script src="numbers.js?v=1"></script>
-<script src="app.js?v=1"></script>
+<script src="data.js?v=2"></script>
+<script src="numbers.js?v=2"></script>
+<script src="gloss.js?v=2"></script>
+<script src="app.js?v=2"></script>
 </body>
 </html>
