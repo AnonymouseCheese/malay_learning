@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Melayu">
+<meta name="theme-color" content="#12131a">
+<title>Everyday Malay</title>
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+
+<!-- ===== HOME: THE COURSE ===== -->
+<section id="homeScreen" class="screen">
+  <div class="menu-head">
+    <h1 class="app-title">Bahasa Melayu</h1>
+    <p class="app-sub">everyday speech</p>
+  </div>
+
+  <div class="scroll-body">
+    <button id="goNumbers" class="menu-btn menu-btn-feature">
+      <span class="menu-btn-kana">lima ringgit lima puluh sen &rarr; 5.50</span>
+      <span class="menu-btn-main">Numbers &amp; money</span>
+      <span class="menu-btn-sub">Hear a figure and catch it. Prices, cents and the belas / puluh trap.</span>
+    </button>
+
+    <div id="featuredList"></div>
+
+    <p class="section-label">The course</p>
+    <div id="unitList" class="unit-list"></div>
+
+    <div class="menu-foot menu-foot-flat">
+      <div id="volumeWrap" class="seg-wrap seg-wrap-tight">
+        <p class="seg-label">Sound &mdash; applies everywhere in the app</p>
+        <div class="seg">
+          <button class="seg-btn" data-vol="off">Off</button>
+          <button class="seg-btn" data-vol="low">Low</button>
+          <button class="seg-btn" data-vol="mid">Medium</button>
+          <button class="seg-btn" data-vol="high">Full</button>
+        </div>
+      </div>
+
+      <div class="seg-wrap seg-wrap-tight">
+        <p class="seg-label">Money &mdash; which currency the prices are in</p>
+        <div class="seg">
+          <button class="seg-btn" data-cur="dolar">Dolar (SG)</button>
+          <button class="seg-btn" data-cur="ringgit">Ringgit (MY)</button>
+        </div>
+      </div>
+
+      <p id="voiceNote" class="home-note"></p>
+      <p class="home-note">Malay is written in the ordinary alphabet, so there is
+      no writing system to learn. What is left is the speaking, and that is all
+      this app does.</p>
+      <button id="resetAll" class="mini mini-quiet">Reset all progress</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ONE UNIT: PICK A MODE ===== -->
+<section id="unitScreen" class="screen hidden">
+  <header class="bar">
+    <button class="back" data-back="home" aria-label="Back">&lsaquo;</button>
+    <span class="bar-title" id="unitBarName">Unit</span>
+  </header>
+
+  <div class="scroll-body">
+    <div class="menu-head menu-head-sub">
+      <h1 class="app-title app-title-ms" id="unitMalay">Asas</h1>
+      <p class="app-sub" id="unitEnglish">First words</p>
+    </div>
+
+    <div id="unitNote" class="note-box"></div>
+
+    <div class="seg-wrap seg-wrap-tight">
+      <p class="seg-label">What to practise</p>
+      <div class="seg">
+        <button class="seg-btn" data-scope="words">Words</button>
+        <button class="seg-btn" data-scope="phrases">Phrases</button>
+        <button class="seg-btn" data-scope="both">Both</button>
+      </div>
+      <p id="scopeCount" class="seg-note"></p>
+    </div>
+
+    <div class="menu-choices menu-choices-flat">
+      <button id="goListen" class="menu-btn">
+        <span class="menu-btn-kana">&#9834; terima kasih &rarr; ?</span>
+        <span class="menu-btn-main">Listen &amp; repeat</span>
+        <span class="menu-btn-sub">Hear it, say it back, then check the meaning</span>
+      </button>
+      <button id="goRecall" class="menu-btn">
+        <span class="menu-btn-kana">thank you &rarr; ?</span>
+        <span class="menu-btn-main">English &rarr; Malay</span>
+        <span class="menu-btn-sub">See the English, say the Malay from memory</span>
+      </button>
+      <button id="goQuiz" class="menu-btn">
+        <span class="menu-btn-kana">&#9834; &rarr; a &middot; b &middot; c &middot; d</span>
+        <span class="menu-btn-main">Listening quiz</span>
+        <span class="menu-btn-sub">Hear it with no text, pick what it means</span>
+      </button>
+      <button id="goBrowse" class="menu-btn">
+        <span class="menu-btn-kana">&#9776;</span>
+        <span class="menu-btn-main">Phrasebook</span>
+        <span class="menu-btn-sub" id="browseCount">Read the whole list</span>
+      </button>
+    </div>
+
+    <div class="menu-foot menu-foot-flat">
+      <button id="goExam" class="menu-btn menu-btn-exam">
+        <span class="menu-btn-main">Exam</span>
+        <span class="menu-btn-sub">All three modes mixed, scored at the end</span>
+      </button>
+      <div id="unitWeak" class="weak"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DRILL CARD (listen & repeat / english to malay) ===== -->
+<section id="drillScreen" class="screen hidden">
+  <header class="bar">
+    <button class="back" data-back="unit" aria-label="Back">&lsaquo;</button>
+    <span class="bar-title" id="drillTitle">Listen &amp; repeat</span>
+    <span class="bar-actions"><button id="drillSkip" class="mini">skip</button></span>
+    <span class="score"><b class="js-right">0</b> / <span class="js-total">0</span></span>
+  </header>
+
+  <div class="card-scroll">
+    <div class="word-box">
+      <div id="drillPrompt" class="word-kana"></div>
+      <div id="drillPromptSub" class="prompt-label"></div>
+      <button id="drillListen" class="listen hidden">&#9834; listen</button>
+
+      <div id="drillAnswer" class="reveal hidden">
+        <div id="drillMalay" class="word-kana word-kana-answer"></div>
+        <div id="drillEnglish" class="word-meaning"></div>
+        <div id="drillLit" class="lit"></div>
+        <div id="drillNote" class="tip"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="drillActions" class="actions">
+    <button id="drillReveal" class="btn btn-primary">Show answer<span class="hint">space</span></button>
+  </div>
+  <div id="drillGrade" class="actions hidden">
+    <button id="drillMissed" class="btn btn-bad">Missed it<span class="hint">n</span></button>
+    <button id="drillGot" class="btn btn-good">Got it<span class="hint">y</span></button>
+  </div>
+</section>
+
+<!-- ===== LISTENING QUIZ ===== -->
+<section id="quizScreen" class="screen hidden">
+  <header class="bar">
+    <button class="back" data-back="unit" aria-label="Back">&lsaquo;</button>
+    <span class="bar-title">Listening quiz</span>
+    <span class="score"><b class="js-right">0</b> / <span class="js-total">0</span></span>
+  </header>
+
+  <div class="quiz-head">
+    <button id="quizPlay" class="play-btn" aria-label="Play again">&#9834;</button>
+    <p class="picker-hint">Tap to hear it again.</p>
+    <div id="quizHeard" class="quiz-heard"></div>
+  </div>
+
+  <div id="quizChoices" class="choices"></div>
+  <div id="quizFeedback" class="feedback"></div>
+</section>
+
+<!-- ===== PHRASEBOOK ===== -->
+<section id="browseScreen" class="screen hidden">
+  <header class="bar">
+    <button class="back" data-back="unit" aria-label="Back">&lsaquo;</button>
+    <span class="bar-title" id="browseTitle">Phrasebook</span>
+    <span class="bar-actions"><button id="addOpen" class="mini hidden">+ add</button></span>
+  </header>
+  <p class="picker-hint">Tap any line to hear it.</p>
+
+  <div id="addForm" class="add-form hidden">
+    <p class="seg-label">Add a phrase of your own</p>
+    <input id="addMalay" class="add-input" type="text" placeholder="Malay - e.g. Tolong basuh kereta." autocomplete="off" autocorrect="off" spellcheck="false">
+    <input id="addEnglish" class="add-input" type="text" placeholder="English - e.g. Please wash the car." autocomplete="off">
+    <div class="add-actions">
+      <button id="addCancel" class="btn btn-bad">Cancel</button>
+      <button id="addSave" class="btn btn-good">Save</button>
+    </div>
+    <p class="seg-note">Saved on this device only. It joins the drills straight away.</p>
+  </div>
+
+  <div id="browseList" class="browse-scroll"></div>
+</section>
+
+<!-- ===== NUMBERS: LEVEL PICKER ===== -->
+<section id="numHomeScreen" class="screen hidden">
+  <header class="bar">
+    <button class="back" data-back="home" aria-label="Back">&lsaquo;</button>
+    <span class="bar-title">Numbers &amp; money</span>
+  </header>
+
+  <div class="scroll-body">
+    <div class="note-box">Malay prices carry no decimal point when spoken &mdash;
+    the currency word is the point. Everything before <b>ringgit</b> or
+    <b>dolar</b> is dollars, everything after is cents. Then the shortcuts
+    start: <b>sen</b> gets dropped, and <b>setengah</b> stands in for fifty, so
+    5.50 arrives as <i>lima ringgit lima puluh sen</i>, <i>lima lima puluh</i>
+    or <i>lima setengah</i>. Two things are worth drilling on their own &mdash;
+    <b>belas</b> against <b>puluh</b>, and cents under ten, which keep their
+    small number and can sound like the whole price.</div>
+
+    <div class="seg-wrap seg-wrap-tight">
+      <p class="seg-label">Direction</p>
+      <div class="seg">
+        <button class="seg-btn" data-numdir="hear">Hear it &rarr; type it</button>
+        <button class="seg-btn" data-numdir="say">See it &rarr; say it</button>
+      </div>
+      <p id="numDirNote" class="seg-note"></p>
+    </div>
+
+    <p class="section-label">Levels</p>
+    <div id="levelList" class="unit-list"></div>
+  </div>
+</section>
+
+<!-- ===== NUMBERS: THE DRILL ===== -->
+<section id="numScreen" class="screen hidden">
+  <header class="bar">
+    <button class="back" data-back="numHome" aria-label="Back">&lsaquo;</button>
+    <span class="bar-title" id="numTitle">Numbers</span>
+    <span class="bar-actions"><button id="numSlow" class="mini">slower</button></span>
+    <span class="score"><b class="js-right">0</b> / <span class="js-total">0</span></span>
+  </header>
+
+  <div class="num-body">
+    <div id="numHearSide">
+      <button id="numPlay" class="play-btn play-btn-big" aria-label="Play">&#9834;</button>
+      <p class="picker-hint">Tap to hear it again.</p>
+      <div id="numDisplay" class="num-display">&mdash;</div>
+      <div id="numUnit" class="num-unit"></div>
+    </div>
+
+    <div id="numSaySide" class="hidden">
+      <p class="picker-hint">Say it out loud in Malay, then check.</p>
+      <div id="numShown" class="num-shown">&mdash;</div>
+    </div>
+
+    <div id="numResult" class="num-result hidden">
+      <div id="numSpoken" class="num-spoken"></div>
+      <div id="numAlts" class="num-alts"></div>
+      <div id="numNote" class="tip"></div>
+    </div>
+  </div>
+
+  <div id="numPad" class="keypad">
+    <button class="key" data-key="1">1</button>
+    <button class="key" data-key="2">2</button>
+    <button class="key" data-key="3">3</button>
+    <button class="key" data-key="4">4</button>
+    <button class="key" data-key="5">5</button>
+    <button class="key" data-key="6">6</button>
+    <button class="key" data-key="7">7</button>
+    <button class="key" data-key="8">8</button>
+    <button class="key" data-key="9">9</button>
+    <button class="key key-alt" data-key=".">.</button>
+    <button class="key" data-key="0">0</button>
+    <button class="key key-alt" data-key="del">&#9003;</button>
+  </div>
+
+  <div id="numActions" class="actions">
+    <button id="numCheck" class="btn btn-primary">Check<span class="hint">enter</span></button>
+  </div>
+  <div id="numSayActions" class="actions hidden">
+    <button id="numSayReveal" class="btn btn-primary">Show answer<span class="hint">space</span></button>
+  </div>
+  <div id="numGrade" class="actions hidden">
+    <button id="numMissed" class="btn btn-bad">Missed it<span class="hint">n</span></button>
+    <button id="numGot" class="btn btn-good">Got it<span class="hint">y</span></button>
+  </div>
+  <div id="numNext" class="actions hidden">
+    <button id="numNextBtn" class="btn btn-primary">Next<span class="hint">space</span></button>
+  </div>
+</section>
+
+<!-- ===== EXAM RESULT ===== -->
+<section id="examScreen" class="screen hidden">
+  <header class="bar">
+    <button class="back" data-back="unit" aria-label="Back">&lsaquo;</button>
+    <span class="bar-title">Exam result</span>
+  </header>
+
+  <div class="exam-scroll">
+    <div class="exam-score">
+      <span id="examScore">0</span><span class="exam-of">/</span><span id="examTotal">0</span>
+    </div>
+    <div id="examBreakdown" class="exam-breakdown"></div>
+    <div id="examMissed" class="exam-missed"></div>
+  </div>
+
+  <div class="actions">
+    <button id="examAgain" class="btn btn-primary">Another exam</button>
+  </div>
+</section>
+
+<script src="data.js?v=1"></script>
+<script src="numbers.js?v=1"></script>
+<script src="app.js?v=1"></script>
+</body>
+</html>
